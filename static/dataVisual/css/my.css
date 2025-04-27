@@ -1,0 +1,226 @@
+button#send-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+button#send-button:hover {
+    background-color: #45a049;
+}
+.alert-section {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+/* 按钮样式 */
+.blue-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 100000; /* 确保按钮在其他元素之上 */
+}
+.green-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    z-index: 100000; /* 确保按钮在其他元素之上 */
+}
+
+.button-container {
+    margin-top: 5px;
+}
+ /* 奇数行样式 */
+#alert-messages li:nth-child(odd) {
+}
+
+/* 偶数行样式 */
+#alert-messages li:nth-child(even) {
+    background: rgba(0,183,238,.1);
+}
+
+
+
+ /* 奇数行样式 */
+#emotion-alert-messages li:nth-child(odd) {
+}
+
+/* 偶数行样式 */
+#emotion-alert-messages li:nth-child(even) {
+    background: rgba(0,183,238,.1);
+}
+/* 左侧预警消息区域 */
+/* 设置 ul 容器样式 */
+ul.scrollable-ul {
+    max-height: 100%; /* 设置最大高度 */
+    overflow-y: auto; /* 启用垂直滚动 */
+}
+
+/* 弹窗样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100000000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 5%;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+#modal-image-preview, #modal-video-preview {
+    max-width: 100%;
+    height: auto;
+}
+.close-button {
+    background-color: red; /* 红色背景 */
+    color: white;          /* 白色文字 */
+    border: none;          /* 去掉边框 */
+    padding: 10px 20px;    /* 按钮内边距 */
+    cursor: pointer;       /* 鼠标悬停时显示手型 */
+    font-size: 16px;       /* 字体大小 */
+    border-radius: 5px;    /* 圆角效果 */
+}
+
+.close-button:hover {
+    background-color: darkred; /* 鼠标悬停时颜色变深 */
+}
+
+.agent-circle
+{
+width: 50px;
+height: 50px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 10px auto;
+font-size: 10px;
+color: white;
+font-weight: bold;
+}
+.agent-circle-legend
+{
+width: 10px;
+height: 10px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 20px auto;
+font-size: 12px;
+color: white;
+font-weight: bold;
+}
+.charging { background-color: red; }
+.standby { background-color: gray; }
+.working { background-color: green; }
+.completed { background-color: blue; }
+
+/* 图例容器样式 */
+.legend-container {
+    display: flex;
+    justify-content: center; /* 横向居中 */
+    margin: 20px 0;
+}
+
+/* 图例项容器样式 */
+.legend-item {
+    text-align: center; /* 内容居中 */
+    margin-right: 20px; /* 每个图例项之间的间距 */
+}
+
+/* 图例文字样式 */
+.legend-text {
+    margin-top: 5px; /* 文字与圆圈之间的间距 */
+    font-size: 10px;
+    color: white;
+}
+
+/* 智能体状态容器样式 */
+.agent-container {
+    text-align: center; /* 容器内内容居中 */
+    margin: 20px;
+}
+
+/* 智能体文字样式 */
+.agent-text {
+    margin-top: 10px; /* 文字与圆圈之间的间距 */
+    font-size: 14px;
+    color: black;
+}
+.agent-circle {
+    transition: background-color 0.5s ease, transform 0.3s ease;
+}
+.agent-circle:hover {
+    transform: scale(1.5); /* 鼠标悬停时放大 */
+}
+
+
+/* 跳动动画 */
+@keyframes jump {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* 公共跳动类 */
+.jump {
+  animation-name: jump;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* 不同标签的动画参数 */
+.c1 { animation-duration: 1.5s; animation-delay: 0s; }
+.c2 { animation-duration: 1.8s; animation-delay: 0.3s; }
+.c3 { animation-duration: 1.6s; animation-delay: 0.6s; }
+.c4 { animation-duration: 2s; animation-delay: 0.9s; }
+.c5 { animation-duration: 1.7s; animation-delay: 1.2s; }
+.c6 { animation-duration: 1.9s; animation-delay: 1.5s; }
+
+#chart-panel
+{
+    width: 100%; margin-left: 4%; margin-top: 1%;height: 90%;position: relative;
+    z-index:99;
+}

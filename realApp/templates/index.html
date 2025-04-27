@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>智能监控大屏</title>
+    <link href="{% static 'css/realApp.css' %}" rel="stylesheet">
+</head>
+<body>
+    <!-- 左侧预警消息区域 -->
+    <div class="alert-section">
+        <h2>预警消息</h2>
+        <div id="alert-messages"></div>
+<!--        <textarea id="input-box" placeholder="请输入内容"></textarea>-->
+<!--        <button id="send-button">发送</button>-->
+    </div>
+
+    <!-- 右侧视频流区域 -->
+    <div class="video-section">
+        <h2>智能监控大屏</h2>
+        <div class="video-container">
+            <img id="video-feed"/>
+        </div>
+    </div>
+    <!-- 媒体弹窗 -->
+    <div id="media-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="image-preview" style="display: none; max-width: 100%;" />
+            <video id="video-preview" controls style="display: none; max-width: 100%;" type="video/webm"></video>
+        </div>
+    </div>
+   <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

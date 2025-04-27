@@ -1,0 +1,197 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>深心智慧|{% block title %}{% endblock %} </title>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+
+<style>
+     .con {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            margin-left: 40px; /* 可根据需要调整间距 */
+            margin-right: 40px; /* 可根据需要调整间距 */
+            font-size:60px;
+            color: #0000FF; /* 设置字体颜色为蓝色 */
+        }
+</style>
+
+<body>
+    <!-- 头部 -->
+    <div class="container top">
+        <div class="row">
+            <div class="col-md-12 con">
+                <a>
+                    <img class="img-responsive" src="{% static 'img/logo.png' %}">
+                </a>
+                    <h1 class="logo" >智慧人文，智慧康养</h1>
+                <a>
+                    <img class="img-responsive" src="{% static 'img/deepheart.png' %}">
+                </a>
+            </div>
+<!--            <div class="col-md-3 hidden-xs">-->
+<!--                <a class="phone ant">-->
+<!--                    <span class="glyphicon glyphicon-phone"></span>电话：15304463139 &nbsp; &nbsp;-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            <div class="col-md-3 hidden-xs">-->
+<!--                <a class="mail ant">-->
+<!--                    <span class="glyphicon glyphicon-envelope"></span>邮箱：2889663102@qq.com-->
+<!--                </a>-->
+<!--            </div>-->
+        </div>
+    </div>
+    <!-- 导航条 -->
+    <nav class="navbar navbar-default" role="navigation">
+
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example"
+                    aria-expanded="false">
+                    <span>导航栏</span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example">
+                <ul class="nav navbar-nav" style="width:100%;">
+                    <li class="nav-top">
+                        <a href="{% url 'home' %}">首页</a>
+                    </li>
+
+                    <li class="dropdown nav-top" id='news'>
+                        <a href="#" class="dropdown-toggle on" data-toggle="dropdown">
+                            实时演示</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'realApp:registrer' %}">人员注册</a></li>
+                            <li><a href="{% url 'realApp:visualization' %}">可视化分析</a></li>
+                            <li><a href="">整体视角</a></li>
+                            <li><a href="">机器人视角</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown nav-top" id='about'>
+                        <a href="#" class="dropdown-toggle on" data-toggle="dropdown">
+                            团队简介</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'aboutApp:survey' %}">团队介绍</a></li>
+                            <li><a href="{% url 'aboutApp:honor' %}">成果简介</a></li>
+                        </ul>
+                    </li>
+
+
+
+                    <li class="dropdown nav-top" id='products'>
+                        <a href="#" class="dropdown-toggle on" data-toggle="dropdown">
+                            案例演示</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'productsApp:products' 'other' %}">
+                                    智慧康养</a></li>
+                            <li><a href="{% url 'productsApp:products' 'eduction' %}">
+                                    智慧教育</a></li>
+                            <li><a href="{% url 'productsApp:products' 'monitor' %}">
+                                    智慧校园</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown nav-top">
+                        <a href="#" class="dropdown-toggle on" data-toggle="dropdown">
+                            服务支持</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="">
+                                    资料下载</a></li>
+                            <li><a href="">
+                                    人脸识别开放平台</a></li>
+                        </ul>
+                    </li>
+<!--                    <li class="nav-top" id='science'>-->
+<!--                        <a href="">科研基地</a>-->
+<!--                    </li>-->
+<!--                    <li class="dropdown nav-top" id='employ'>-->
+<!--                        <a href="#" class="dropdown-toggle on" data-toggle="dropdown">-->
+<!--                            人才招聘</a>-->
+<!--                        <ul class="dropdown-menu">-->
+<!--                            <li><a href="">欢迎咨询</a></li>-->
+<!--                            <li><a href="">加入恒达</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 分割线 -->
+    <div class="line"></div>
+    {% block content %}
+    {% endblock %}
+    <!-- 页脚 -->
+    <div class="container web-footer">
+        <!-- 站点地图 -->
+        <div class="row" id="map-footer">
+            <div class="col-md-2">
+                <dl>
+                    <dt>团队简介</dt>
+                    <dd><a href="{% url 'aboutApp:survey' %}">团队介绍</a></dd>
+                    <dd><a href="{% url 'aboutApp:honor' %}">成果简介</a></dd>
+                </dl>
+            </div>
+            <div class="col-md-2">
+                <dl>
+                    <dt>案例演示</dt>
+                    <dd><a href="{% url 'productsApp:products' 'other' %}">智慧康养</a></dd>
+                   <dd><a href="{% url 'productsApp:products' 'eduction' %}">智慧教育</a></dd>
+                    <dd><a href="{% url 'productsApp:products' 'monitor' %}">智慧校园</a></dd>
+
+                </dl>
+            </div>
+            <div class="col-md-2">
+                <dl>
+                    <dt>服务支持</dt>
+                    <dd><a href="">资料下载</a></dd>
+                    <dd><a href="">人脸识别开放平台</a></dd>
+                </dl>
+            </div>
+<!--            <div class="col-md-2">-->
+<!--                <dl>-->
+<!--                    <dt>人才招聘</dt>-->
+<!--                    <dd><a href="">欢迎咨询</a></dd>-->
+<!--                    <dd><a href="">加入恒达</a></dd>-->
+<!--                </dl>-->
+<!--            </div>-->
+            <div class="col-md-4" id="wx">
+                <p>扫描二维码，关注我们</p>
+                <img class="qrimg" src="{% static 'img/qr.png' %}" alt="wx">
+<!--                <p>客服热线：<b style="font-size:20px">400 111 2222</b></p>-->
+            </div>
+        </div>
+        <!-- 版权 -->
+        <div class="row" id="patent-footer">
+            <p> © 2025 深心智慧  </p>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $(".dropdown").mouseover(function () {
+                $(this).addClass("open");
+            });
+            $(".dropdown").mouseleave(function () {
+                $(this).removeClass("open");
+            });
+        });
+    </script>
+    <script type="text/JavaScript">
+        $('#{{active_menu}}').addClass("active");
+    </script>
+    <script type="text/JavaScript">
+        $('#{{sub_menu}}').addClass("active");
+     </script>
+</body>
+
+</html>

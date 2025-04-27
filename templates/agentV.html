@@ -1,0 +1,622 @@
+{% load static %}
+<!doctype html>
+<meta charset="utf-8">
+<title>智能体状态分析</title>
+<link href="{% static 'dataVisual/css/style.css'%}"  rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'dataVisual/css/my.css'%}"  rel="stylesheet" type="text/css" media="all" />
+<!--<script src="{% static 'dataVisual/js/echarts.min.js'%}" charset="utf-8"></script>-->
+<script src="{% static 'dataVisual/js/jquery-3.2.0.min.js'%}" charset="utf-8"></script>
+<script src="{% static 'dataVisual/lib/5.5.0/echarts.min.js'%}" charset="utf-8"></script>
+
+
+<body>
+<div class="bnt">
+  <div class="topbnt_left fl">
+    <ul>
+       <li ><a href="http://127.0.0.1:8000/realApp/visualization">实时监控</a></li>
+      <li><a href="http://127.0.0.1:8000/admin">后台管理</a></li>
+      <li class="active"><a href="http://127.0.0.1:8000/realApp/agentV">智能体</a></li>
+        </ul>
+  </div>
+  <h1 class="tith1 fl">智能体状态分析</h1>
+  <div class=" fr topbnt_right">
+         <ul>
+       <li><a href="{% url 'home' %}">返回</a></li>
+       <li ><a href="http://127.0.0.1:8000/realApp/report">分析报告</a></li>
+       <li><a href="#">短信通知</a></li>
+    </ul>
+  </div>
+</div>
+<!-- bnt end -->
+<div class="left1 pleft1">
+    <div class="lefttime"><h2 class="tith2">统计时间</h2>
+     <div class="lefttime_text">
+        <ul>
+          <li class="bg active">今日</li>
+          <li></li>
+          <li class="bg">本周</li>
+          <li></li>
+          <li class="bg">本月</li>
+          <li></li>
+          <li class="bg">本季</li>
+          <li></li>
+          <li class="bg">本年</li>
+        </ul>
+     </div>
+    </div>
+    <div class="plefttoday"><h2 class="tith2">智能体电量</h2>
+    <div class="lefttoday_tit" style=" height:8%"><p class="fl"></p><p class="fr" id="clock"></p></div>
+    <div class="lefttoday_number">
+      <div class="widget-inline-box text-center fl">
+        <p>跟踪智能体</p>
+        <h3 class="ceeb1fd">52%</h3>
+      </div>
+      <div class="widget-inline-box text-center fl">
+         <p>运送智能体</p>
+        <h3 class="c24c9ff">54%</h3>
+      </div>
+      <div class="widget-inline-box text-center fl">
+         <p>机械臂</p>
+        <h3 class="cffff00">100%</h3>
+      </div>
+      <div class="widget-inline-box text-center fl">
+         <p>其他设备</p>
+        <h3 class="c11e2dd">NAN</h3>
+
+      </div>
+    </div>
+    <!-- lefttoday_number end -->
+    <!--  lefttoday_bar end-->
+    </div>
+    <div class="lpeftmidbot">
+      <h2 class="tith2">智能体运行距离</h2>
+        <div class="pvr fl  lpeftb2otcont1 hdtop" style=" height:82%;" ><ul>
+      <li class="hot1">1</li>
+      <li class="hot2">2</li>
+      <li class="hot3">3</li>
+        </ul>
+     <div id="pleftbox2bott_cont" class="lpeftmidbotcont"></div>
+<!--      <div id="" class="lpeftmidbotcont"></div>-->
+    </div>
+    </div>
+
+    <div class="lpeftbot">
+      <h2 class="tith2">监控视角</h2>
+        <div class="lpeftmidbotcont"></div>
+  </div>
+
+
+  </div>
+</div>
+<!--  left1 end -->
+<div class="left2">
+  <div class="pleftbox2top">
+    <h2 class="tith2">跟踪智能体视角</h2>
+    <div id="" class="pleftbox2topcont"></div>
+  </div>
+  <div class="pleftbox2midd"><h2 class="tith2">运输智能体视角</h2>
+  <!-- <div id="pleftbox2midd" class="pleftbox2middcont"></div> -->
+  <div class="pvr fl  lpeftb2otcont1 hdtop" style=" height:82%;" >
+<!--    <ul>-->
+<!--      <li class="hot1">1</li>-->
+<!--      <li class="hot2">2</li>-->
+<!--      <li class="hot3">3</li>-->
+<!--    </ul>-->
+    <div id=""class="pleftbox2middcont" style=" height:100%;" ></div>
+  </div>
+  </div>
+  <div class="lpeft2bot" >
+    <h2 class="tith2 " >机械臂视角</h2>
+<div id=""class="lpeftb2otcont" ></div>
+
+    </div>
+</div>
+</div>
+<div class="mrbox prbox">
+      <div class="hdmrbox_top">
+          <div class="mrbox_top_midd">
+                <div class="hdmrboxtm-mbox"><h2 class="tith2 pt1">地图分析</h2>
+<!--                  <div class="lefttoday_tit font14" style=" height:13%"><p class="fl"><i class="ricontop redr">12</i>民事活动</p><p class="fr" ><i class="ricontop bluer">12</i>佛事活动</p></div>-->
+                <div id="chart-panel" class="">
+
+                 </div>
+              </div>
+<!--  map end-->
+                <!-- <div class="pmrboxbottom"><h2 class="tith2 pt1">涉稳警情</h2>
+                    <div id="pmrboxbottom" class="pmrboxbottomcont" ></div>
+                </div> -->
+                <div class="mrbox_bottom_bott">
+                    <div class="rbottom_box1 hdwid"><h2 class="tith2">心理状态分类分析</h2>
+                    <div id="prbottom_box2" class="prbottom_box1cont"></div></div>
+                    <div class="rbottom_box2 hdwid"><h2 class="tith2">行为状态分类分析</h2>
+                    <div id="behavior" class="prbottom_box1cont" ></div></div>
+              </div>
+
+          </div>
+        <!-- mrbox_top_midd end -->
+        <div class="mrbox_top_right">
+          <div class="hdrightboxtop"><h2 class="tith2">今日活动</h2>
+            <div class="lefttoday_tit" style="height:4%"><p class="fl"></p><p class="fr">时间段：2018-06-10</p></div>
+            <div class="left2_table hdleft2_table">
+               <ul>
+                   <li class="bg">
+                    <p class="fl"><b>智能体</b><br>
+                      09:45 充电<br>
+                    </p>
+                    </li>
+                   <li>
+                    <p class="fl"><b>智能体</b><br>
+                      09:33 播放音乐 <br>
+                    </p>
+                    </li>
+                    <li class="bg">
+                    <p class="fl"><b>机械臂</b><br>
+                      09:32 抓取药物<br>
+                    </p>
+                    </li>
+                   <li>
+                    <p class="fl"><b>智能体</b><br>
+                      09:30 跟踪观察 <br>
+                    </p>
+                    </li>
+               </ul>
+            </div>
+        </div>
+
+
+      <!-- <div class="mrbox_bottom">
+          <div class="rbottom_box1"><h2 class="tith2">高危人员分类分析</h2>
+          <div id="prbottom_box2" class="prbottom_box1cont"></div></div>
+          <div class="rbottom_box2"><h2 class="tith2">活动人口统计</h2>
+          <div id="pleftbox2midd" class="prbottom_box1cont" ></div></div>
+          <div class="rbottom_box3"><h2 class="tith2 pt2">流动人口年龄分析</h2>
+          <div id="prbottom_box3" class="prbottom_box1cont"></div></div>
+
+      </div> -->
+</div>
+
+                <script type="text/javascript">
+                        var myChart = echarts.init(document.getElementById('pmrboxbottom'));
+                        option = {
+                          color:['#d2d17c','#00b7ee', '#5578cf', '#5ebbeb', '#d16ad8','#f8e19a',  '#00b7ee', '#81dabe','#5fc5ce'],
+                            backgroundColor: 'rgba(1,202,217,.2)',
+                            legend: {
+                              top:10,
+                              textStyle:{
+                                fontSize: 10,
+                                color:'rgba(255,255,255,.7)'
+                              },
+                                  data:['愉悦','平静','悲伤','痛苦']
+                              },
+                              grid: {
+                                  left: 10,
+                                  right: 10,
+                                  top: 40,
+                                  bottom: 10,
+                                  containLabel: true
+                              },
+
+                              xAxis : [
+                                     {
+                                         type : 'category',
+                                         axisLine:{
+                                           lineStyle:{
+                                             color:'rgba(255,255,255,.3)'
+                                           }
+                                         },
+                                         splitLine:{
+                                           lineStyle:{
+                                             color:'rgba(255,255,255,.01)'
+                                           }
+                                         },
+                                         data : ['康定市','泸定县','丹巴县','九龙县','新龙县','巴塘县','得荣县','理塘县','甘孜县','道孚县','德格县','色达县']
+                                     }
+                                 ],
+                              yAxis : [
+                                  {
+                                    axisLine:{
+                                      lineStyle:{
+                                        color:'rgba(255,255,255,.3)'
+                                      }
+                                    },
+                                    splitLine:{
+                                      lineStyle:{
+                                        color:'rgba(255,255,255,.01)'
+                                      }
+                                    },
+
+                                    axisLabel: {
+                                        formatter: '{value} ml'
+                                    },
+                                      type : 'value'
+                                  }
+
+                              ],
+                              series : [
+
+                                  {
+                                      name:'涉恐人员',
+                                      type:'bar',
+                                      barWidth :30,
+                                      stack: '搜索引擎',
+                                      data:[620, 732, 701, 734, 1090, 1130, 1120,620, 732, 701, 734, 1090,]
+                                  },
+                                  {
+                                      name:'涉稳人员',
+                                      type:'bar',
+                                      stack: '搜索引擎',
+                                      data:[120, 132, 101, 134, 290, 230, 220, 101, 134, 290, 230, 220]
+                                  },
+                                  {
+                                      name:'涉毒人员',
+                                      type:'bar',
+                                      stack: '搜索引擎',
+                                      data:[60, 72, 71, 74, 190, 130, 110, 71, 74, 190, 130, 110]
+                                  },
+                                  ,
+                                  {
+                                      name:'在逃人员',
+                                      type:'bar',
+                                      stack: '搜索引擎',
+                                      data:[120, 132, 101, 134, 290, 230, 220, 101, 134, 290, 230, 220]
+                                  },
+                                  {
+                                      name:'重点上访人员',
+                                      type:'bar',
+                                      stack: '搜索引擎',
+                                      data:[60, 72, 71, 74, 190, 130, 110, 71, 74, 190, 130, 110]
+                                  },
+                                  {
+                                      name:'肇事肇祸精神病人',
+                                      type:'bar',
+                                      stack: '搜索引擎',
+                                      data:[60, 72, 71, 74, 190, 130, 110, 71, 74, 190, 130, 110]
+                                  },
+                                  {
+                                      name:'重大刑事犯罪前科人员',
+                                      type:'bar',
+                                      stack: '搜索引擎',
+                                      data:[62, 82, 91, 84, 109, 110, 120, 91, 84, 109, 110, 120]
+                                  }
+                              ]
+                              };
+                        myChart.setOption(option);
+                    </script>
+                    <script type="text/javascript">
+                            var myChart = echarts.init(document.getElementById('pleftbox2bott_cont'));
+                            option = {
+                              color:['#7ecef4'],
+                                backgroundColor: 'rgba(1,202,217,.2)',
+                                grid: {
+                    											left:40,
+                    											right:20,
+                    											top:30,
+                    											bottom:0,
+                                          containLabel: true
+                    										},
+
+                                      xAxis: {
+                                          type: 'value',
+                                          axisLine:{
+                                           lineStyle:{
+                                             color:'rgba(255,255,255,0)'
+                                           }
+                                         },
+                                         splitLine:{
+                                           lineStyle:{
+                                             color:'rgba(255,255,255,0)'
+                                           }
+                                         },
+                                         axisLabel:{
+                                             color:"rgba(255,255,255,0)"
+                                         },
+                                          boundaryGap: [0, 0.01]
+                                      },
+                                      yAxis: {
+                                          type: 'category',
+                                          axisLine:{
+                                           lineStyle:{
+                                             color:'rgba(255,255,255,.5)'
+                                           }
+                                         },
+                                         splitLine:{
+                                           lineStyle:{
+                                             color:'rgba(255,255,255,.1)'
+                                           }
+                                         },
+                                         axisLabel:{
+                                             color:"rgba(255,255,255,.5)"
+                                         },
+                                          data: ['机械臂','跟踪智能体','运输智能体']
+                                      },
+                                      series: [
+                                          {
+                                              name: '2011年',
+                                              type: 'bar',
+                                              barWidth :20,
+                                              itemStyle: {
+                                                  normal: {
+                                                      color: new echarts.graphic.LinearGradient(
+                                                          1, 0, 0, 1,
+                                                          [
+                                                              {offset: 0, color: 'rgba(230,253,139,.7)'},
+                                                              {offset: 1, color: 'rgba(41,220,205,.7)'}
+                                                          ]
+                                                      )
+                                                  }
+                                              },
+                                              data: [29034, 84970, 131744]
+                                          }
+                                      ]
+                                  };
+                            myChart.setOption(option);
+                        </script>
+
+                    <script type="text/javascript">
+                            var myChart = echarts.init(document.getElementById('prbottom_box2'));
+                            option = {
+                                backgroundColor: 'rgba(1,202,217,.2)',
+                                  color:['yellow','#7fd7b1'],
+                                grid: {
+                                          left:30,
+                                          right:20,
+                                          top:20,
+                                          bottom:40
+                                        },
+                                        xAxis: {
+                                          axisLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.7)'
+                    												}
+                    											},
+                    											splitLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.1)'
+                    												}
+                    											},
+                                          data: ['愉悦','平静','悲伤','痛苦',]
+                                        },
+                                        yAxis: {
+                                          axisLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.2)'
+                    												}
+                    											},
+                    											splitLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.1)'
+                    												}
+                    											}
+                                        },
+                                        series: [{
+                                            symbolSize: 20,
+                                            data: [
+                                              [0.0, 8.04],
+                                               [2.0, 6.95],
+                                               [3.0, 7.58],
+                                               [5.0, 8.81],
+                                               [0.4, 8.33],
+                                               [4.0, 1.96],
+                                               [0.3, 7.24],
+                                               [4.6, 4.26],
+
+                                            ],
+                                            type: 'scatter'
+                                        }]
+                                    };
+                    myChart.setOption(option);
+                  </script>
+<script type="text/javascript">
+                            var myChart = echarts.init(document.getElementById('behavior'));
+                            option = {
+                                backgroundColor: 'rgba(1,202,217,.2)',
+                                  color:['pink','red'],
+                                grid: {
+                                          left:30,
+                                          right:20,
+                                          top:20,
+                                          bottom:40
+                                        },
+                                        xAxis: {
+                                          axisLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.7)'
+                    												}
+                    											},
+                    											splitLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.1)'
+                    												}
+                    											},
+                                          data: ['异常跌倒','烟火预警','突发疾病']
+                                        },
+                                        yAxis: {
+                                          axisLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.2)'
+                    												}
+                    											},
+                    											splitLine:{
+                    												lineStyle:{
+                    													color:'rgba(255,255,255,.1)'
+                    												}
+                    											}
+                                        },
+                                        series: [{
+                                            symbolSize: 20,
+                                            data: [
+                                              [0.0, 8.04],
+                                               [2.0, 6.95],
+                                               [3.0, 7.58],
+                                               [5.0, 8.81],
+                                               [0.4, 8.33],
+                                               [8.0, 1.96],
+                                               [8.3, 7.24],
+                                               [8.6, 4.26],
+
+                                            ],
+                                            type: 'scatter'
+                                        }]
+                                    };
+                    myChart.setOption(option);
+                  </script>
+
+
+
+<script>
+
+
+//初始化图表对象。
+var myChart = echarts.init(document.getElementById('chart-panel'));
+//图表配置。
+$.get(
+    '{% static 'dataVisual/svg/MacOdrum-LV5-floorplan-web.svg'%}',
+    function (svg) {
+        echarts.registerMap('MacOdrum-LV5-floorplan-web', { svg: svg });
+        let option = {
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            title: {
+                text: 'Visit Route',
+                left: 'center',
+                bottom: 10
+            },
+            tooltip: {},
+            geo: {
+                map: 'MacOdrum-LV5-floorplan-web',
+                roam: true,
+                emphasis: {
+                    itemStyle: {
+                        color: undefined
+                    },
+                    label: {
+                        show: false
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'Route',
+                    type: 'lines',
+                    coordinateSystem: 'geo',
+                    geoIndex: 0,
+                    emphasis: {
+                        label: {
+                            show: false
+                        }
+                    },
+                    polyline: true,
+                    lineStyle: {
+                        color: '#c46e54',
+                        width: 5,
+                        opacity: 1,
+                        type: 'dotted'
+                    },
+                    effect: {
+                        show: true,
+                        // period: 8,
+                        color: '#a10000',
+                        constantSpeed: 80,
+                        trailLength: 0,
+                        symbolSize: [20, 12],
+                        symbol:
+                            'path://M35.5 40.5c0-22.16 17.84-40 40-40s40 17.84 40 40c0 1.6939-.1042 3.3626-.3067 5H35.8067c-.2025-1.6374-.3067-3.3061-.3067-5zm90.9621-2.6663c-.62-1.4856-.9621-3.1182-.9621-4.8337 0-6.925 5.575-12.5 12.5-12.5s12.5 5.575 12.5 12.5a12.685 12.685 0 0 1-.1529 1.9691l.9537.5506-15.6454 27.0986-.1554-.0897V65.5h-28.7285c-7.318 9.1548-18.587 15-31.2715 15s-23.9535-5.8452-31.2715-15H15.5v-2.8059l-.0937.0437-8.8727-19.0274C2.912 41.5258.5 37.5549.5 33c0-6.925 5.575-12.5 12.5-12.5S25.5 26.075 25.5 33c0 .9035-.0949 1.784-.2753 2.6321L29.8262 45.5h92.2098z'
+                    },
+                    data: [
+                        {
+                            coords: [
+                                [110.6189462165178, 456.64349563895087],
+                                [124.10988522879458, 450.8570048730469],
+                                [123.9272226116071, 389.9520693708147],
+                                [61.58708083147317, 386.87942320312504],
+                                [61.58708083147317, 72.8954315876116],
+                                [258.29514854771196, 72.8954315876116],
+                                [260.75457021484374, 336.8559607533482],
+                                [280.5277985253906, 410.2406672084263],
+                                [275.948185765904, 528.0254369698661],
+                                [111.06907909458701, 552.795792593471],
+                                [118.87138231445309, 701.365737015904],
+                                [221.36468155133926, 758.7870354617745],
+                                [307.86195445452006, 742.164737297712],
+                                [366.8489324762834, 560.9895157073103],
+                                [492.8750778390066, 560.9895157073103],
+                                [492.8750778390066, 827.9639780566406],
+                                [294.9255269587053, 827.9639780566406],
+                                [282.79803391043527, 868.2476088113839]
+                            ]
+                        }
+                    ]
+                } ,{
+                    name: 'Route',
+                    type: 'lines',
+                    coordinateSystem: 'geo',
+                    geoIndex: 0,
+                    emphasis: {
+                        label: {
+                            show: false
+                        }
+                    },
+                    polyline: true,
+                    lineStyle: {
+                        color: '#c46e54',
+                        width: 5,
+                        opacity: 1,
+                        type: 'dotted'
+                    },
+                    effect: {
+                        show: true,
+                        // period: 8,
+                        color: 'green',
+                        constantSpeed: 80,
+                        trailLength: 0,
+                        symbolSize: [20, 12],
+                        symbol:
+                            'path://M35.5 40.5c0-22.16 17.84-40 40-40s40 17.84 40 40c0 1.6939-.1042 3.3626-.3067 5H35.8067c-.2025-1.6374-.3067-3.3061-.3067-5zm90.9621-2.6663c-.62-1.4856-.9621-3.1182-.9621-4.8337 0-6.925 5.575-12.5 12.5-12.5s12.5 5.575 12.5 12.5a12.685 12.685 0 0 1-.1529 1.9691l.9537.5506-15.6454 27.0986-.1554-.0897V65.5h-28.7285c-7.318 9.1548-18.587 15-31.2715 15s-23.9535-5.8452-31.2715-15H15.5v-2.8059l-.0937.0437-8.8727-19.0274C2.912 41.5258.5 37.5549.5 33c0-6.925 5.575-12.5 12.5-12.5S25.5 26.075 25.5 33c0 .9035-.0949 1.784-.2753 2.6321L29.8262 45.5h92.2098z'
+                    },
+                    data: [
+                        {
+                            coords: [
+                                [294.9255269587053, 827.9639780566406],
+                                [282.79803391043527, 868.2476088113839],
+                                [258.29514854771196, 72.8954315876116],
+                                [260.75457021484374, 336.8559607533482],
+                                [280.5277985253906, 410.2406672084263],
+                                [275.948185765904, 528.0254369698661],
+                            ]
+                        }
+                    ]
+                },
+            ]
+        };
+        //将图表对象和图表配置进行关联。
+        myChart.setOption(option);
+    }
+);
+</script>
+          <script>
+// 获取当前时间并格式化为 HH:MM:SS
+function getCurrentTime() {
+    const now = new Date();
+    let hours = now.getHours().toString().padStart(2, '0'); // 小时
+    let minutes = now.getMinutes().toString().padStart(2, '0'); // 分钟
+    let seconds = now.getSeconds().toString().padStart(2, '0'); // 秒
+    return `${hours}:${minutes}:${seconds}`;
+}
+
+// 更新时间显示
+function updateTime() {
+    const clockElement = document.getElementById('clock');
+    clockElement.textContent = getCurrentTime();
+}
+
+// 每秒更新一次时间
+setInterval(updateTime, 1000);
+
+// 页面加载时立即显示时间
+updateTime();
+</script>
+</body>
+</html>

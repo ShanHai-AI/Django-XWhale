@@ -1,0 +1,909 @@
+{% load static %}
+<!doctype html>
+<meta charset="utf-8">
+<title>基于大模型多智能体智慧康养实时监控系统</title>
+<link href="{% static 'dataVisual/css/style.css'%}"  rel="stylesheet" type="text/css" media="all" />
+<link href="{% static 'dataVisual/css/my.css'%}"  rel="stylesheet" type="text/css" media="all" />
+<script src="{% static 'dataVisual/js/echarts.min.js'%}" charset="utf-8"></script>
+<script src="{% static 'dataVisual/js/jquery-3.2.0.min.js'%}" charset="utf-8"></script>
+
+
+<body>
+<div class="wpbox">
+<div class="bnt">
+  <div class="topbnt_left fl">
+   <ul><li class="active"><a href="http://127.0.0.1:8000/realApp/visualization">实时监控</a></li>
+      <li><a href="http://127.0.0.1:8000/admin">后台管理</a></li>
+      <li><a href="http://127.0.0.1:8000/realApp/agentV">智能体</a></li>
+   </ul>
+  </div>
+  <h1 class="tith1 fl">
+      <PRE>
+ 多智能体智慧康养
+ 监控分析、预警平台
+      </PRE>
+  </h1>
+  <div class=" fr topbnt_right">
+    <ul>
+       <li><a href="{% url 'home' %}">返回</a></li>
+       <li><a href="http://127.0.0.1:8000/realApp/report">分析报告</a></li>
+       <li><a href="#">短信通知</a></li>
+
+    </ul>
+   </ul>
+  </div>
+</div>
+<!-- bnt end -->
+<div class="left1">
+    <div class="aleftboxttop"><h2 class="tith2">正常状态</h2>
+        <div class="lefttoday_tit" style=" height:8%"><p class="fl">状态：危险预警</p><p class="fr">2025-05</p>
+         </div>
+        <div class="left2_table">
+            <ul id="emotion-alert-messages" class="scrollable-ul">
+
+            </ul>
+        </div>
+    <!-- lefttoday_number end -->
+    </div>
+  <div class="aleftboxtbott">
+    <h2 class="tith2">智能体实时状态</h2>
+<!--        <div class="lefttoday_tit height"><p class="fl">智能体状态</p></div>-->
+      <div class="legend-container">
+        <div class="legend-item">
+            <div class="agent-circle-legend charging"></div>
+            <div class="legend-text">充电</div>
+        </div>
+        <div class="legend-item">
+            <div class="agent-circle-legend standby"></div>
+            <div class="legend-text">待机</div>
+        </div>
+        <div class="legend-item">
+            <div class="agent-circle-legend working"></div>
+            <div class="legend-text">工作</div>
+        </div>
+        <div class="legend-item">
+            <div class="agent-circle-legend completed"></div>
+            <div class="legend-text">完成</div>
+        </div>
+    </div>
+    <div id="agent-container">
+    </div>
+</div>
+</div>
+<!--  left1 end -->
+<div class="mrbox">
+      <div class="mrbox_topmidd" style="width: 69%;">
+          <div class="amiddboxttop">
+              <h2 class="tith2 pt1">实时现场监控画面</h2>
+<!--                <div class="" style="">-->
+                <div class="" style="">
+                 <span class="camera_l"  style=" top:34%;left:32%"></span>
+                 <span class="camera_l" style=" top:10%;left:10%"></span>
+                 <span class="camera_l" style=" top:5%;left:40%"></span>
+                 <span class="camera_l" style=" top:10%;left:50%"></span>
+                 <span style=" top:30%;left:75%"></span>
+                 <span style=" top:5%;left:92%"></span>
+                 <span style=" top:40%;left:83%"></span>
+
+                  <img id="video-feed" class="amiddboxttop_map" style="z-index:99" />
+                </div>
+
+            </div>
+            <!--  amiddboxttop end-->
+                <div class="amidd_bott">
+                  <div class="amiddboxtbott1 fl" >
+                    <h2 class="tith2 pt1">情绪变化状态</h2>
+                    <div id="test" class="amiddboxtbott1content" ></div>
+                  </div>
+
+                <div class="amiddboxtbott2 fl"><h2 class="tith2 pt1">行为状态</h2>
+                    <div id="test2" class="amiddboxtbott2content"></div>
+                </div>
+            </div>
+            <!-- amidd_bott end -->
+          </div>
+        <!-- mrbox_top end -->
+        <div class="mrbox_top_right">
+          <div class="arightboxtop"><h2 class="tith2">行为预警分析</h2>
+            <div class="lefttoday_tit"><p class="fl">状态：危险预警</p><p class="fr">时间段：2025-04</p></div>
+            <div class="left2_table">
+<!--                <div id="alert-messages"></div>-->
+                    <ul id="alert-messages" class="scrollable-ul">
+                    </ul>
+            </div>
+
+          </div>
+            <div class="arightboxbott"><h2 class="tith2 ">一周内危险行为次数</h2>
+              <div class="lefttoday_tit"><p class="fl"></p><p class="fr"></p></div>
+              <div id="aweek" class="arightboxbottcont"></div>
+            </div>
+        </div>
+        <!-- mrbox_top_right end -->
+      </div>
+
+    </div>
+</div>
+<!-- 媒体弹窗 -->
+<div id="media-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <img id="image-preview" style="display: none; max-width: 100%;" />
+        <video id="video-preview" controls style="display: none; max-width: 100%;" type="video/webm"></video>
+        <button id="close-modal-button" class="close-button">关闭</button>
+    </div>
+</div>
+
+
+
+                <script type="text/javascript">
+                        var myChart = echarts.init(document.getElementById('aleftboxtmidd'));
+                        option = {
+                          color:['#76c4bf','#e5ffc7','#508097','#4d72d9'],
+                            backgroundColor: 'rgba(1,202,217,.2)',
+                            grid: {
+                											left:10,
+                											right:40,
+                											top:20,
+                											bottom:0,
+                                      containLabel: true
+                										},
+                                      // legend: {
+                                      //     x : 'center',
+                                      //     y : '70%',
+                                      //     textStyle:{
+                                      //       fontSize: 10,
+                                      //       color:'rgba(255,255,255,.7)'
+                                      //     },
+                                      //     data:['康定市','丹巴县','甘孜县','理塘县']
+                                      // },
+                                      calculable : true,
+                                      series : [
+
+                                          {
+                                              name:'面积模式',
+                                              type:'pie',
+                                              radius : [5, 60],
+                                              center : ['50%', '55%'],
+                                              roseType : 'area',
+                                              data:[
+                                                  {value:10, name:'康定市'},
+                                                  {value:5, name:'丹巴县'},
+                                                  {value:15, name:'甘孜县'},
+                                                  {value:25, name:'理塘县'}
+                                              ]
+                                          }
+                                      ]
+                                  };
+                        myChart.setOption(option);
+                    </script>
+                        <script type="text/javascript">
+                                var myChart = echarts.init(document.getElementById('amiddboxtbott1'));
+                                var data = [
+                                    [[28604,77,17099,'Australia',1990],[31163,77.4,2440,'Canada',1990],[1516,68,1605773,'China',1990],[13670,74.7,10082,'Cuba',1990],[28599,75,49805,'Finland',1990],[29476,77.1,569499,'France',1990],[31476,75.4,789237,'Germany',1990],[28666,78.1,254830,'Iceland',1990],[1777,57.7,870776,'India',1990],[29550,79.1,129285,'Japan',1990],[2076,67.9,201954,'North Korea',1990],[12087,72,42954,'South Korea',1990],[24021,75.4,33934,'New Zealand',1990],[43296,76.8,4240375,'Norway',1990],[10088,70.8,381958,'Poland',1990],[19349,69.6,1475652,'Russia',1990],[10670,67.3,53905,'Turkey',1990],[26424,75.7,57117,'United Kingdom',1990],[37062,75.4,252810,'United States',1990]],
+                                    [[44056,81.8,23973,'Australia',2015],[43294,81.7,35927,'Canada',2015],[13334,76.9,1376043,'China',2015],[21291,78.5,11562,'Cuba',2015],[38923,80.8,55057,'Finland',2015],[37599,81.9,64345,'France',2015],[44053,81.1,80545,'Germany',2015],[42182,82.8,329425,'Iceland',2015],[5903,66.8,1311027,'India',2015],[36162,83.5,126571,'Japan',2015],[1390,71.4,251317,'North Korea',2015],[34644,80.7,503439,'South Korea',2015],[34186,80.6,4528526,'New Zealand',2015],[64304,81.6,5210967,'Norway',2015],[24787,77.3,386194,'Poland',2015],[23038,73.13,143918,'Russia',2015],[19360,76.5,78630,'Turkey',2015],[38225,81.4,64715810,'United Kingdom',2015],[53354,79.1,321771,'United States',2015]]
+                                ];
+
+                                option = {
+                                    backgroundColor: 'rgba(1,202,217,.2)',
+                                    grid: {
+                                      left:40,
+                                      right:40,
+                                      top:50,
+                                      bottom:40
+                        										},
+                                    title: {
+                                      top: 5,
+                                      left:20,
+                                        textStyle:{
+                                          fontSize:10,
+                                          color:'rgba(255,255,255,.6)'
+                                        },
+                                        text: '环比类型：日环比'
+                                    },
+                                    legend: {
+                                        right: 10,
+                                        top: 5,
+                                        textStyle:{
+                                          fontSize:10,
+                                          color:'rgba(255,255,255,.6)'
+                                        },
+                                        data: ['1990', '2015']
+                                    },
+                                    xAxis: {
+                                      axisLine:{
+                                        lineStyle:{
+                                          color:'rgba(255,255,255,.2)'
+                                        }
+                                      },
+                                      splitLine:{
+                                        lineStyle:{
+                                          color:'rgba(255,255,255,.1)'
+                                        }
+                                      },
+                                      axisLabel:{
+                                          color:"rgba(255,255,255,.7)"
+                                      }
+                                    },
+                                    yAxis: {
+                                      axisLine:{
+                                        lineStyle:{
+                                          color:'rgba(255,255,255,.2)'
+                                        }
+                                      },
+                                      splitLine:{
+                                        lineStyle:{
+                                          color:'rgba(255,255,255,.1)'
+                                        }
+                                      },
+                                      axisLabel:{
+                                          color:"rgba(255,255,255,.7)"
+                                      },
+                                        scale: true
+                                    },
+                                    series: [{
+                                        name: '1990',
+                                        data: data[0],
+                                        type: 'scatter',
+                                        symbolSize: function (data) {
+                                            return Math.sqrt(data[2]) / 5e2;
+                                        },
+                                        label: {
+                                            emphasis: {
+                                                show: true,
+                                                formatter: function (param) {
+                                                    return param.data[3];
+                                                },
+                                                position: 'top'
+                                            }
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                shadowBlur: 10,
+                                                shadowColor: 'rgba(120, 36, 50, 0.5)',
+                                                shadowOffsetY: 5,
+                                                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(251, 118, 123)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(204, 46, 72)'
+                                                }])
+                                            }
+                                        }
+                                    }, {
+                                        name: '2015',
+                                        data: data[1],
+                                        type: 'scatter',
+                                        symbolSize: function (data) {
+                                            return Math.sqrt(data[2]) / 5e2;
+                                        },
+                                        label: {
+                                            emphasis: {
+                                                show: true,
+                                                formatter: function (param) {
+                                                    return param.data[3];
+                                                },
+                                                position: 'top'
+                                            }
+                                        },
+                                        itemStyle: {
+                                            normal: {
+                                                shadowBlur: 10,
+                                                shadowColor: 'rgba(25, 100, 150, 0.5)',
+                                                shadowOffsetY: 5,
+                                                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                                                    offset: 0,
+                                                    color: 'rgb(129, 227, 238)'
+                                                }, {
+                                                    offset: 1,
+                                                    color: 'rgb(25, 183, 207)'
+                                                }])
+                                            }
+                                        }
+                                    }]
+                                };
+                                myChart.setOption(option);
+                            </script>
+
+
+
+<!--<script>-->
+<!--    // 初始化图表-->
+<!--    var myChart = echarts.init(document.getElementById('test'));-->
+
+<!--    // 定义颜色映射-->
+<!--    const colorMap = {-->
+<!--        '喜悦': 'green',-->
+<!--        '平静': 'yellow',-->
+<!--        '痛苦悲伤': 'red'-->
+<!--    };-->
+
+<!--    // 定义初始配置项-->
+<!--    const initialOptione = {-->
+<!--        legend: {-->
+<!--            data: ['喜悦', '平静', '痛苦悲伤'], // 图例中分别显示每种情绪-->
+<!--            itemStyle: { color: '#FF5733' },-->
+<!--            left: 'right',-->
+<!--            top: '10%',-->
+<!--            textStyle: {-->
+<!--                color: 'white',-->
+<!--                fontSize: 14-->
+<!--            }-->
+<!--        },-->
+<!--        backgroundColor: 'rgba(1,202,217,.2)',-->
+<!--        grid: {-->
+<!--            left: 60,-->
+<!--            right: 60,-->
+<!--            top: 50,-->
+<!--            bottom: 40-->
+<!--        },-->
+<!--        xAxis: {-->
+<!--            type: 'time',-->
+<!--            name: '时间',-->
+<!--            axisLine: {-->
+<!--                lineStyle: {-->
+<!--                    color: 'rgba(255,255,255,.2)'-->
+<!--                }-->
+<!--            },-->
+<!--            splitLine: {-->
+<!--                lineStyle: {-->
+<!--                    color: 'rgba(255,255,255,.1)'-->
+<!--                }-->
+<!--            },-->
+<!--            axisLabel: {-->
+<!--                color: "rgba(255,255,255,.7)"-->
+<!--            },-->
+<!--        },-->
+<!--        yAxis: {-->
+<!--            type: 'value',-->
+<!--            name: '情绪强度（0-1）',-->
+<!--            axisLine: {-->
+<!--                lineStyle: {-->
+<!--                    color: 'rgba(255,255,255,.2)'-->
+<!--                }-->
+<!--            },-->
+<!--            splitLine: {-->
+<!--                lineStyle: {-->
+<!--                    color: 'rgba(255,255,255,.1)'-->
+<!--                }-->
+<!--            },-->
+<!--            axisLabel: {-->
+<!--                color: "rgba(255,255,255,.7)"-->
+<!--            },-->
+<!--        },-->
+<!--        series: [-->
+<!--            {-->
+<!--                name: '喜悦',-->
+<!--                type: 'bar',-->
+<!--                data: [],-->
+<!--                barWidth: '10%',-->
+<!--                itemStyle: {-->
+<!--                    color: colorMap['喜悦']-->
+<!--                },-->
+<!--                label: {-->
+<!--                    show: false // 隐藏标签文字-->
+<!--                }-->
+<!--            },-->
+<!--            {-->
+<!--                name: '平静',-->
+<!--                type: 'bar',-->
+<!--                data: [],-->
+<!--                barWidth: '10%',-->
+<!--                itemStyle: {-->
+<!--                    color: colorMap['平静']-->
+<!--                },-->
+<!--                label: {-->
+<!--                    show: false // 隐藏标签文字-->
+<!--                }-->
+<!--            },-->
+<!--            {-->
+<!--                name: '痛苦悲伤',-->
+<!--                type: 'bar',-->
+<!--                data: [],-->
+<!--                barWidth: '10%',-->
+<!--                itemStyle: {-->
+<!--                    color: colorMap['痛苦悲伤']-->
+<!--                },-->
+<!--                label: {-->
+<!--                    show: false // 隐藏标签文字-->
+<!--                }-->
+<!--            }-->
+<!--        ]-->
+<!--    };-->
+
+<!--    // 设置初始配置-->
+<!--    myChart.setOption(initialOptione);-->
+
+<!--    // 函数：从后端获取数据并更新图表-->
+<!--    function fetchEmotionData() {-->
+<!--        fetch('http://127.0.0.1:8000/realApp/get_e_changes/')  // 替换为你的后端接口地址-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                // 提取嵌套数组中的数据-->
+<!--                const backendData = data[0]; // 获取内层数组-->
+
+<!--                // 按情绪类型分组-->
+<!--                const groupedData = {-->
+<!--                    '喜悦': [],-->
+<!--                    '平静': [],-->
+<!--                    '痛苦悲伤': []-->
+<!--                };-->
+
+<!--                backendData.forEach(item => {-->
+<!--                    const time = new Date(item.value[0]); // 转换时间为 Date 对象-->
+<!--                    const intensity = parseFloat(item.value[1]); // 转换强度为浮点数-->
+<!--                    const emotion = item.name; // 情绪名称-->
+
+<!--                    // 按情绪类型分组-->
+<!--                    groupedData[emotion].push([time, intensity]);-->
+<!--                });-->
+
+<!--                // 更新图表的 series 数据-->
+<!--                const option = myChart.getOption();-->
+<!--                option.series[0].data = groupedData['喜悦'];-->
+<!--                option.series[1].data = groupedData['平静'];-->
+<!--                option.series[2].data = groupedData['痛苦悲伤'];-->
+
+<!--                // 重新设置选项以刷新图表-->
+<!--                myChart.setOption(option);-->
+<!--            })-->
+<!--            .catch(error => console.error('Error fetching data:', error));-->
+<!--    }-->
+
+<!--    // 页面加载时立即请求数据-->
+<!--    fetchEmotionData();-->
+
+<!--    // 每隔 5 秒刷新一次数据-->
+<!--    setInterval(fetchEmotionData, 5000);-->
+<!--</script>-->
+<script>
+    // 初始化图表
+    var myChart = echarts.init(document.getElementById('test'));
+
+    // 定义颜色映射
+    const colorMap = {
+        '喜悦': 'green',
+        '平静': 'yellow',
+        '痛苦悲伤': 'red'
+    };
+
+    // 定义初始配置项
+    const initialOptione = {
+        tooltip: {
+            trigger: 'axis', // 触发方式为坐标轴触发
+            axisPointer: {
+                type: 'line', // 指示器类型为直线
+                lineStyle: {
+                    color: 'rgba(255,255,255,.5)', // 指示线颜色
+                    width: 1
+                }
+            },
+            formatter: function (params) {
+                // 自定义提示框内容
+                let tooltipContent = '';
+                params.forEach(param => {
+                    const time = new Date(param.value[0]); // 获取时间戳
+                    const year = time.getFullYear(); // 年份
+                    const month = String(time.getMonth() + 1).padStart(2, '0'); // 月份，补零
+                    const day = String(time.getDate()).padStart(2, '0'); // 日期，补零
+                    const hours = String(time.getHours()).padStart(2, '0'); // 小时，补零
+                    const minutes = String(time.getMinutes()).padStart(2, '0'); // 分钟，补零
+                    const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`; // 格式化时间为 YYYY-MM-DD HH:mm
+                    const intensity = param.value[1]; // 获取情绪强度
+                    tooltipContent += `<div style="color: ${param.color};">${param.seriesName}: 时间=${formattedTime}, 强度=${intensity}</div>`;
+                });
+                return tooltipContent;
+            },
+            backgroundColor: 'rgba(0, 0, 0, 0.7)', // 提示框背景颜色
+            textStyle: {
+                color: '#fff', // 提示框文字颜色
+                fontSize: 12
+            }
+        },
+        legend: {
+            data: ['喜悦', '平静', '痛苦悲伤'], // 图例中分别显示每种情绪
+            itemStyle: { color: '#FF5733' },
+            left: 'right',
+            top: 0,
+            textStyle: {
+                color: 'white',
+                fontSize: 14
+            }
+        },
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left: 60,
+            right: 60,
+            top: 50,
+            bottom: 40
+        },
+        xAxis: {
+            type: 'time',
+            name: '时间',
+            axisLine: {
+                lineStyle: {
+                    color: 'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: 'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel: {
+                color: "rgba(255,255,255,.7)",
+                formatter: function (value) {
+                    // 格式化时间为 MM-DD HH:mm
+                    const date = new Date(value);
+                    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份，补零
+                    const day = String(date.getDate()).padStart(2, '0'); // 日期，补零
+                    const hours = String(date.getHours()).padStart(2, '0'); // 小时，补零
+                    const minutes = String(date.getMinutes()).padStart(2, '0'); // 分钟，补零
+                    return `${month}-${day}`;
+                }
+            },
+        },
+        yAxis: {
+            type: 'value',
+            name: '情绪强度（0-1）',
+            axisLine: {
+                lineStyle: {
+                    color: 'rgba(255,255,255,.2)'
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: 'rgba(255,255,255,.1)'
+                }
+            },
+            axisLabel: {
+                color: "rgba(255,255,255,.7)"
+            },
+        },
+        series: [
+            {
+                name: '喜悦',
+                type: 'bar',
+                data: [],
+                barWidth: '10%',
+                itemStyle: {
+                    color: colorMap['喜悦']
+                },
+                label: {
+                    show: false // 隐藏标签文字
+                }
+            },
+            {
+                name: '平静',
+                type: 'bar',
+                data: [],
+                barWidth: '10%',
+                itemStyle: {
+                    color: colorMap['平静']
+                },
+                label: {
+                    show: false // 隐藏标签文字
+                }
+            },
+            {
+                name: '痛苦悲伤',
+                type: 'bar',
+                data: [],
+                barWidth: '10%',
+                itemStyle: {
+                    color: colorMap['痛苦悲伤']
+                },
+                label: {
+                    show: false // 隐藏标签文字
+                }
+            }
+        ]
+    };
+
+    // 设置初始配置
+    myChart.setOption(initialOptione);
+
+    // 函数：从后端获取数据并更新图表
+    function fetchEmotionData() {
+        fetch('http://127.0.0.1:8000/realApp/get_e_changes/')  // 替换为你的后端接口地址
+            .then(response => response.json())
+            .then(data => {
+                // 提取嵌套数组中的数据
+                const backendData = data[0]; // 获取内层数组
+
+                // 按情绪类型分组
+                const groupedData = {
+                    '喜悦': [],
+                    '平静': [],
+                    '痛苦悲伤': []
+                };
+
+                backendData.forEach(item => {
+                    const time = new Date(item.value[0]); // 转换时间为 Date 对象
+                    const intensity = parseFloat(item.value[1]); // 转换强度为浮点数
+                    const emotion = item.name; // 情绪名称
+
+                    // 按情绪类型分组
+                    groupedData[emotion].push([time, intensity]);
+                });
+
+                // 更新图表的 series 数据
+                const option = myChart.getOption();
+                option.series[0].data = groupedData['喜悦'];
+                option.series[1].data = groupedData['平静'];
+                option.series[2].data = groupedData['痛苦悲伤'];
+
+                // 重新设置选项以刷新图表
+                myChart.setOption(option);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // 页面加载时立即请求数据
+    fetchEmotionData();
+
+    // 每隔 5 秒刷新一次数据
+    setInterval(fetchEmotionData, 5000);
+</script>
+<script type="text/javascript">
+    var myChartWeek = echarts.init(document.getElementById('aweek'));
+
+    // 定义初始配置项
+    var initialOptionWeek = {
+        color: ['#7de494', '#7fd7b1', '#5578cf', '#5ebbeb', '#d16ad8', '#f8e19a', '#00b7ee', '#81dabe', '#5fc5ce'],
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left: '5%',
+            right: '8%',
+            bottom: '7%',
+            top: '8%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            axisLine: { lineStyle: { color: 'rgba(255,255,255,.2)' } },
+            splitLine: { lineStyle: { color: 'rgba(255,255,255,.1)' } },
+            axisLabel: { color: "rgba(255,255,255,.7)" ,
+                formatter: function(value) {
+                        // 输入假设是 "YYYY-MM-DD" 格式，截取后两位
+                        return value.slice(5).replace('-', '/');
+                        // 或者用 split 拆分：
+                        // return value.split('-').slice(1).join('/');
+                    }
+                    },
+            data: []
+        },
+        yAxis: {
+            type: 'value',
+            axisLine: { lineStyle: { color: 'rgba(255,255,255,.2)' } },
+            splitLine: { lineStyle: { color: 'rgba(255,255,255,.1)' } },
+            axisLabel: { color: "rgba(255,255,255,.7)" }
+        },
+        series: [{
+            name: '预警次数',
+            type: 'line',
+            stack: '总量',
+            areaStyle: { opacity: 0.5 }, // 添加透明度确保区域可见
+            data: []
+        }]
+    };
+
+    // 设置初始配置
+    myChartWeek.setOption(initialOptionWeek);
+
+    function fetchAlertData() {
+        fetch('http://127.0.0.1:8000/realApp/a_week/')
+            .then(response => response.json())
+            .then(data => {
+                // 将数据转换为数组并按日期升序排序
+                const sortedData = data.sort((a, b) => {
+                    return new Date(a.date) - new Date(b.date);
+                });
+                // 提取排序后的日期和次数
+                const dates = sortedData.map(item => item.date);
+                const counts = sortedData.map(item => item.count);
+
+                // 强制更新指定配置项
+                myChartWeek.setOption({
+                    xAxis: { data: dates },
+                    series: [{ data: counts }]
+                });
+
+                // 调试：强制重绘图表
+                setTimeout(() => myChartWeek.resize(), 100);
+            })
+            .catch(error => console.error('数据加载失败:', error));
+    }
+
+    // 页面加载时立即请求数据
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAlertData();
+    });
+
+    // 每隔5秒刷新一次数据
+    setInterval(fetchAlertData, 5000);
+</script>
+
+<script>
+    // 定义颜色映射
+const colorMapB = {
+    '跌倒': '#FF5733',
+    '手捂胸口': '#FFA500',
+    '扶墙': '#FFD700',
+    '其他': '#808080' // 默认颜色
+};
+
+// 初始化 rawData
+let rawData = [];
+
+// 函数：从后端获取数据并更新 rawData
+function fetchBehaviorData() {
+    fetch('http://127.0.0.1:8000/realApp/get_b_changes/')  // 替换为你的后端接口地址
+        .then(response => response.json())
+        .then(data => {
+            // 提取嵌套数组中的数据
+            const backendData = data[0]; // 获取内层数组
+
+            // 更新 rawData
+            rawData = backendData.map(item => ({
+                name: item.name,
+                value: [new Date(item.value[0]), parseFloat(item.value[1])]  // 转换时间为 Date 对象，紧急程度为浮点数
+            }));
+
+            // 更新图表
+            updateChart();
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+// 函数：更新图表
+function updateChart() {
+    // 数据分组
+    var seriesData = {};
+    rawData.forEach(item => {
+        if (!seriesData[item.name]) {
+            seriesData[item.name] = [];
+        }
+        seriesData[item.name].push(item);
+    });
+
+    // 生成系列配置
+    var series = Object.keys(seriesData).map(name => ({
+        name: name,
+        type: 'scatter',
+        data: seriesData[name],
+        symbolSize: (val) => val[1] * 100,
+        itemStyle: {
+            color: colorMapB[name] || colorMapB['其他']
+        },
+        label: {
+            show: true,
+            position: 'top',
+            formatter: (params) => params.name,
+            textStyle: {
+                fontSize: 12,
+                fontWeight: 'bold',
+                color: 'white'
+            }
+        }
+    }));
+
+    // 更新图表配置
+    const option = {
+        title: {
+            text: '异常事件紧急程度时序图',
+            left: 'center',
+            textStyle: { color: 'white' }
+        },
+        legend: {
+            data: Object.keys(seriesData),
+            top: 30,
+            textStyle: { color: 'white' }
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: (params) => {
+                return `${params.seriesName}<br/>
+                        时间：${params.data.value[0].toLocaleDateString()}<br/>
+                        紧急程度：${params.data.value[1].toFixed(2)}`;
+            }
+        },
+        backgroundColor: 'rgba(1,202,217,.2)',
+        grid: {
+            left: 60,
+            right: 60,
+            top: 80,
+            bottom: 40
+        },
+        xAxis: {
+            type: 'time',
+            name: '时间',
+            axisLabel: {
+                formatter: (value) => {
+                    return echarts.format.formatTime('hh:mm', value);
+                },
+                color: 'rgba(255,255,255,.7)'
+            },
+            axisLine: { lineStyle: { color: 'rgba(255,255,255,.2)' } },
+            splitLine: { lineStyle: { color: 'rgba(255,255,255,.1)' } }
+        },
+        yAxis: {
+            type: 'value',
+            name: '紧急程度',
+            min: 0,
+            max: 1,
+            interval: 0.2,
+            axisLabel: {
+                formatter: '{value}',
+                color: 'rgba(255,255,255,.7)'
+            },
+            axisLine: { lineStyle: { color: 'rgba(255,255,255,.2)' } },
+            splitLine: { lineStyle: { color: 'rgba(255,255,255,.1)' } }
+        },
+        series: series
+    };
+
+    // 渲染图表
+    chart.setOption(option);
+}
+
+// 初始化图表
+var chart = echarts.init(document.getElementById('test2'));
+
+// 页面加载时立即请求数据
+fetchBehaviorData();
+
+// 每隔 5 秒刷新一次数据
+setInterval(fetchBehaviorData, 5000);
+</script>
+
+<script>
+        // 定义 AJAX 刷新函数
+        function refreshAgents() {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/agentApp/status/',  // 后端 API 接口
+                method: 'GET',
+                success: function(data) {
+                    // 清空容器
+                    const container = document.getElementById('agent-container');
+                    container.innerHTML = '';
+
+                    // 动态生成智能体状态
+                    data.forEach(function(agent) {
+                        // 创建智能体容器
+                        const agentContainer = document.createElement('div');
+                        agentContainer.className = 'agent-container';
+                        agentContainer.id = `agent-${agent.id}`;
+
+                        // 创建圆圈
+                        const circle = document.createElement('div');
+                        circle.className = `agent-circle ${agent.state}`;
+                        circle.textContent = `${agent.name}`; // 直接将文字插入圆圈
+                        agentContainer.appendChild(circle);
+
+
+                        // 插入到页面中
+                        container.appendChild(agentContainer);
+                    });
+                },
+                error: function(error) {
+                    console.error('Error fetching agent status:', error);
+                }
+            });
+        }
+
+        // 每秒调用一次刷新函数
+        setInterval(refreshAgents, 1000);
+
+        // 页面加载时立即刷新一次
+        refreshAgents();
+    </script>
+<script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>

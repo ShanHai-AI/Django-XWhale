@@ -1,0 +1,197 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #222;
+    color: #fff;
+}
+
+
+
+.alert-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.alert-message {
+    background-color: #444;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    word-wrap: break-word;
+}
+
+textarea#input-box {
+    flex-grow: 1;
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: #fff;
+    resize: none;
+}
+
+button#send-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+button#send-button:hover {
+    background-color: #45a049;
+}
+
+/* 右侧视频流区域 */
+.video-section {
+    width: 70%;
+    background-color: #111;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.video-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.video-container {
+    width: 100%;
+    max-height: 80vh;
+    position: relative;
+}
+
+video#video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.controls button.switch {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.controls button.clear {
+    background-color: #FF5733;
+    color: white;
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #333;
+}
+
+/* 弹窗样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 5%;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+#modal-image-preview, #modal-video-preview {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 按钮容器样式 */
+.button-container {
+    display: flex; /* 横向排列 */
+    gap: 20px; /* 按钮之间的间距（推荐方式） */
+    margin-top: 10px; /* 容器与上方内容的间距 */
+}
+
+/* 蓝色按钮样式 */
+.blue-button {
+    padding: 10px 20px;
+    background-color: #007bff; /* 蓝色背景 */
+    color: white; /* 白色文字 */
+    border: none;
+    border-radius: 5px; /* 圆角 */
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* 悬停效果 */
+}
+
+.blue-button:hover {
+    background-color: #0056b3; /* 悬停时更深的蓝色 */
+}
+
+.blue-button:active {
+    background-color: #004085; /* 点击时更深的蓝色 */
+}

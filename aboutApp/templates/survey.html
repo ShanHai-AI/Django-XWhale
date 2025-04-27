@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+企业概况
+{% endblock %}
+
+{% block content %}
+<!-- 广告横幅 -->
+<div class="container-fluid">
+    <div class="row">
+        <img class="img-responsive model-img" src="{% static 'img/about.jpg' %}">
+    </div>
+</div>
+<!-- 主体内容 -->
+<div class="container">
+    <div class="row row-3">
+        <!-- 侧边导航栏 -->
+        <div class="col-md-3">
+            <div class="model-title">
+                团队简介
+            </div>
+            <div class="model-list">
+                <ul class="list-group">
+                    <li class="list-group-item" id="survey">
+                        <a href="{% url 'aboutApp:survey' %}">团队介绍</a>
+                    </li>
+                    <li class="list-group-item" id="honor">
+                        <a href="{% url 'aboutApp:honor' %}">成果简介</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 说明文字和图片 -->
+        <div class="col-md-9">
+            <div class="model-details-title">
+                团队介绍
+            </div>
+            <div class="model-details">
+                <div class="row">
+                    <img class="img-responsive" src="{% static 'img/aboutteam.jpg' %}">
+                </div>
+                <p>
+                   研究方向：机器视觉、深度学习、智能机器人、边缘计算
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

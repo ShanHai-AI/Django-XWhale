@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+用户信息
+{% endblock %}
+
+{% block content %}
+<link href="{% static 'css/contact.css' %}" rel="stylesheet">
+<script src="{% static 'js/layDate-v5.0.9/laydate.js' %}"></script>
+</script>
+<!-- 主体内容 -->
+<div class="container">
+    <div class="row row-3">
+        <!-- 说明文字和图片 -->
+        <div class="col-md-12">
+            <div class="model-details">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        请填写个人信息
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <form action="." name="resumeForm" method="post" class="form-horizontal" role="form"
+                                enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <!-- 左侧 -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">姓名：</label>
+                                        <div class="col-sm-9">
+                                            {{resumeForm.name|add_class:"form-control"|attr:"placeholder=请填写姓名"}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">电话证号：</label>
+                                        <div class="col-sm-9">
+                                            {{resumeForm.phoneID|add_class:"form-control"}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">性别：</label>
+                                        <div class="col-sm-9">
+                                            {{resumeForm.sex|add_class:"form-control"}}
+                                        </div>
+                                    </div>
+<!--                                </div>-->
+                                <!-- 右侧 -->
+<!--                                <div class="col-md-6">-->
+                                    <div class="form-group">
+                                         <label class="col-sm-3 control-label">上传照片：</label>
+                                        <div class="col-sm-9" style="text-align:center">
+                                            <img id="profileshow" src="{% static 'img/sample.png' %}"
+                                                style="width:120px">
+                                        </div>
+
+                                        {{resumeForm.photo}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">描述：</label>
+                                        <div class="col-sm-9">
+                                            {{resumeForm.experience|add_class:"form-control"}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <center><input type="submit" class="btn btn-primary" value="提交" /></center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        laydate.render({
+            elem: '#id_birth'
+        });
+    </script>
+    <script>
+    $(function () {
+        $('#id_photo').on('change', function () {
+            var r = new FileReader();
+            f = document.getElementById('id_photo').files[0];
+            r.readAsDataURL(f);
+            r.onload = function (e) {
+                document.getElementById('profileshow').src = this.result;
+            };
+        });
+    });
+</script>
+</div>
+{% endblock %}
