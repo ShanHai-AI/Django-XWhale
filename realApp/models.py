@@ -11,7 +11,10 @@ class Resume(models.Model):
                                   null=True,
                                   verbose_name='描述')
     photo = models.ImageField(upload_to='contact/recruit/%Y_%m_%d',
-                              verbose_name='个人照片')
+                              verbose_name='个人照片',
+                              blank=True,  # 允许 Django 表单为空
+                              null=True
+                              )
     publishDate = models.DateTimeField(max_length=20,
                                        default=timezone.now,
                                        verbose_name='提交时间')
@@ -87,3 +90,16 @@ class BehaviorChange(models.Model):
         verbose_name = '行为状态变化'
         verbose_name_plural = '行为状态变化'
         ordering = ('-publishDate',)
+
+
+
+class IP_Config(models.Model):
+    name = models.CharField(max_length=20, verbose_name='姓名')
+    ip = models.CharField(max_length=20, verbose_name='IP地址')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'IP配置'
+        verbose_name_plural = 'IP配置'

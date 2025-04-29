@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Resume, Alerts,EmotionChange,BehaviorChange
+from .models import Resume, Alerts,EmotionChange,BehaviorChange, IP_Config
 from django.utils.safestring import mark_safe
 
 class ResumeAdmin(admin.ModelAdmin):
@@ -20,8 +20,12 @@ class EmotionChangeAdmin(admin.ModelAdmin):
 class BehaviorChangeAdmin(admin.ModelAdmin):
     list_display = ('status', 'publishDate')
 
+class IP_ConfigAdmin(admin.ModelAdmin):
+    list_display = ('name', 'ip')
+
 admin.site.register(Resume,ResumeAdmin)
 admin.site.register(Alerts,AlertsAdmin)
 admin.site.register(EmotionChange,EmotionChangeAdmin)
 admin.site.register(BehaviorChange,BehaviorChangeAdmin)
+admin.site.register(IP_Config,IP_ConfigAdmin)
 

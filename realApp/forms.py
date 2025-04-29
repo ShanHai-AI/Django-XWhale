@@ -4,7 +4,7 @@ from .models import Resume
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
-        fields = ('name', 'sex', 'phoneID','experience', 'photo')
+        fields = ('name', 'sex', 'phoneID','experience','photo')
         # fields = ('name', 'sex', 'personID', 'email', 'birth', 'edu', 'school',
         #           'major', 'experience', 'position', 'photo')
         sex_list = (
@@ -19,7 +19,7 @@ class ResumeForm(forms.ModelForm):
         #     ('其它', '其它'),
         # )
         widgets = {
-            # 'sex': forms.Select(choices=sex_list),
+            'sex': forms.Select(choices=sex_list),
             # 'edu': forms.Select(choices=edu_list),
             'photo': forms.FileInput(),
         }

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+智能体控制
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2>智能体控制面板</h2>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-success btn-lg" onclick="showStartModal()">开始</button>
+        <button class="btn btn-danger btn-lg" onclick="stopProcess()">停止</button>
+    </div>
+</div>
+
+<!-- 自定义模态框 -->
+<div id="startModal" class="modal">
+    <div class="modal-content">
+        <h4>请选择一个用户</h4>
+        <div id="userList" class="user-list">
+            <div class="loading-spinner"></div>
+        </div>
+        <br/>
+        <button class="btn btn-secondary btn-sm btn-close-modal" onclick="closeModal()">取消</button>
+    </div>
+</div>
+
+<script>
+    let userList = []; // 存储从后台获取的用户数据
+
+    function fetchUsers() {
+        const container = document.getElementById('userList');
+        container.innerHTML = '<div class="loading-spinner"></div>';
+
+        fetch('http://127.0.0.1:8000/realApp/api_get_user/') // 替换为你的实际接口地址
+            .then(response => response.json())
+            .then(data => {
+                userList = data;
+                container.innerHTML = '';
+
+                userList.forEach(user => {
+                    const card = document.createElement('div');
+                    card.className = 'user-card';
+                    card.setAttribute('data-id', user.id);
+                    card.innerHTML = `
+                        <img src="${user.image_url}" alt="${user.name}">
+                        <div class="user-name">${user.name}</div>
+                    `;
+                    card.onclick = () => sendImageRequest(user.id);
+                    container.appendChild(card);
+                });
+            })
+            .catch(err => {
+                console.error('获取用户失败:', err);
+                alert('无法加载用户列表，请查看控制台日志。');
+                container.innerHTML = '<p>加载用户失败</p>';
+            });
+    }
+
+    function showStartModal() {
+        fetchUsers(); // 每次打开都刷新一次数据
+        document.getElementById("startModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("startModal").style.display = "none";
+    }
+
+    function sendImageRequest(userId) {
+        const selectedCard = document.querySelector(`.user-card[data-id="${userId}"]`);
+        document.querySelectorAll('.user-card').forEach(c => c.classList.remove('selected'));
+        if (selectedCard) selectedCard.classList.add('selected');
+
+        fetch('http://127.0.0.1:8000/realApp/api_start/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: userId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('已启动：' + data.message);
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('启动失败，请查看控制台');
+        });
+    }
+
+    function stopProcess() {
+        fetch('http://192.168.3.6:16532/end_tracking', {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('已停止：' + data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('停止失败，请查看控制台');
+        });
+    }
+</script>
+{% endblock %}

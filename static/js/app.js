@@ -17,7 +17,7 @@ const modalVideoPreview = document.getElementById('modal-video-preview');
 //const closeModalButton = document.getElementById('close-modal-button');
 
 // 左侧预警消息 WebSocket
-const alertWebSocket = new WebSocket('ws://127.0.0.1:16532/alerts');
+const alertWebSocket = new WebSocket('ws://192.168.3.6:16532/alerts');
 
 // 监听预警消息连接状态
 alertWebSocket.onopen = () => {
@@ -25,7 +25,7 @@ alertWebSocket.onopen = () => {
 };
 
 // 右侧视频流 WebSocket
-const videoWebSocket = new WebSocket('ws://127.0.0.1:16532/video_feed');
+const videoWebSocket = new WebSocket('ws://192.168.3.6:16532/video_feed');
 
 // 监听视频流连接状态
 videoWebSocket.onopen = () => {

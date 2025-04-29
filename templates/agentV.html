@@ -465,12 +465,13 @@
 
 <script>
 
-
+    // jpg转svg
+//https://cdkm.com/cn/jpg-to-svg#google_vignette
 //初始化图表对象。
 var myChart = echarts.init(document.getElementById('chart-panel'));
 //图表配置。
 $.get(
-    '{% static 'dataVisual/svg/MacOdrum-LV5-floorplan-web.svg'%}',
+    '{% static 'dataVisual/svg/WechatIMG326.svg'%}',
     function (svg) {
         echarts.registerMap('MacOdrum-LV5-floorplan-web', { svg: svg });
         let option = {

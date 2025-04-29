@@ -13,6 +13,9 @@ urlpatterns = [
     path('get_b_changes/', views.get_b_changes, name='get_b_changes'),
     path('get_e_changes/', views.get_e_changes, name='get_e_changes'),
     path('a_week/', views.get_alerts_number_in_a_week, name='get_alerts_number_in_a_week'),
+    path('agent_control/',views.agent_control, name='agent_control'),
+    path('api_get_user/',views.api_get_user, name='api_get_user'),
+    path('api_start/',views.api_start, name='api_start'),
 
 
 ]
