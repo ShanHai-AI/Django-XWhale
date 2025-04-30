@@ -1,3 +1,4 @@
+import pinyin
 from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
 from .models import Alerts, EmotionChange, BehaviorChange, Resume
@@ -34,8 +35,10 @@ def registrer(request):
                     format, imgstr = photo_data.split(';base64,')
                     ext = format.split('/')[-1]  # 获取扩展名，如 png/jpg
 
+                    # 中文转拼音
+                    name = pinyin.get(resume.name, format='strip')
                     # 使用姓名作为文件名避免冲突（生产环境建议加 UUID）
-                    file_name = f"{resume.name}.{ext}"
+                    file_name = f"{name}.{ext}"
 
                     # 解码并保存为 Django 的 ImageField
                     data = ContentFile(base64.b64decode(imgstr), name=file_name)
