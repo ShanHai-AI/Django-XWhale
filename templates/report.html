@@ -12,16 +12,16 @@
 <div class="bnt">
   <div class="topbnt_left fl">
       <ul>
-       <li ><a href="http://127.0.0.1:8000/realApp/visualization">实时监控</a></li>
-      <li><a href="http://127.0.0.1:8000/admin">后台管理</a></li>
-      <li><a href="http://127.0.0.1:8000/realApp/agentV">智能体</a></li>
+       <li ><a href={% url 'realApp:visualization'%}>>实时监控</a></li>
+      <li><a href=<a href="#" onclick="window.location.href='/admin/'">>后台管理</a></li>
+      <li><a href={% url 'realApp:agentV'%}>智能体</a></li>
         </ul>
   </div>
   <h1 class="tith1 fl">监测报告</h1>
   <div class=" fr topbnt_right">
       <ul>
        <li><a href="{% url 'home' %}">返回</a></li>
-       <li class="active"><a href="#">分析报告</a></li>
+       <li class="active"><a href={% url 'realApp:report'%}>分析报告</a></li>
        <li><a href="#">短信通知</a></li>
     </ul>
   </div>
@@ -114,10 +114,10 @@
                             <p><strong>描述:</strong> {{ message.content|default:"无描述信息" }}</p>
                                 <div class="button-container">
                                     {% if message.video %}
-                                        <button class="green-button" onclick="openMediaModal('http://127.0.0.1:8000/media/video_warning/{{ message.video }}', 'video')">点击查看视频</button>
+                                        <button class="green-button" onclick="openMediaModal('/media/video_warning/{{ message.video }}', 'video')">点击查看视频</button>
                                     {% endif %}
                                     {% if message.photo %}
-                                        <button class="blue-button" onclick="openMediaModal('http://127.0.0.1:8000/media/image_warning/{{ message.photo }}', 'image')">点击查看图片</button>
+                                        <button class="blue-button" onclick="openMediaModal('/media/image_warning/{{ message.photo }}', 'image')">点击查看图片</button>
                                     {% endif %}
                                 </div>
                             </div>
@@ -138,10 +138,10 @@
                             <p><strong>描述:</strong> {{ message.content|default:"无描述信息" }}</p>
                                 <div class="button-container">
                                     {% if message.video %}
-                                        <button class="green-button" onclick="openMediaModal('http://127.0.0.1:8000/media/video_warning/{{ message.video }}', 'video')">点击查看视频</button>
+                                        <button class="green-button" onclick="openMediaModal('/media/video_warning/{{ message.video }}', 'video')">点击查看视频</button>
                                     {% endif %}
                                     {% if message.photo %}
-                                        <button class="blue-button" onclick="openMediaModal('http://127.0.0.1:8000/media/image_warning/{{ message.photo }}', 'image')">点击查看图片</button>
+                                        <button class="blue-button" onclick="openMediaModal('/media/image_warning/{{ message.photo }}', 'image')">点击查看图片</button>
                                     {% endif %}
                                 </div>
                             </div>
@@ -825,7 +825,7 @@
     myChartWeek.setOption(initialOptionWeek);
 
     function fetchAlertData() {
-        fetch('http://127.0.0.1:8000/realApp/a_week/')
+        fetch('/realApp/a_week/')
             .then(response => response.json())
             .then(data => {
                 // 将数据转换为数组并按日期升序排序

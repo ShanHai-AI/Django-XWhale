@@ -36,7 +36,7 @@
         const container = document.getElementById('userList');
         container.innerHTML = '<div class="loading-spinner"></div>';
 
-        fetch('http://127.0.0.1:8000/realApp/api_get_user/') // 替换为你的实际接口地址
+        fetch('/realApp/api_get_user/') // 替换为你的实际接口地址
             .then(response => response.json())
             .then(data => {
                 userList = data;
@@ -75,7 +75,7 @@
         document.querySelectorAll('.user-card').forEach(c => c.classList.remove('selected'));
         if (selectedCard) selectedCard.classList.add('selected');
 
-        fetch('http://127.0.0.1:8000/realApp/api_start/', {
+        fetch('/realApp/api_start/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,7 +94,7 @@
     }
 
     function stopProcess() {
-        fetch('http://192.168.3.6:16532/end_tracking', {
+        fetch('http://192.168.3.8:16532/end_tracking', {
             method: 'GET'
         })
         .then(response => response.json())
@@ -103,7 +103,7 @@
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('停止失败，请查看控制台');
+            alert('停止');
         });
     }
 </script>

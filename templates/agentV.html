@@ -13,16 +13,16 @@
 <div class="bnt">
   <div class="topbnt_left fl">
     <ul>
-       <li ><a href="http://127.0.0.1:8000/realApp/visualization">实时监控</a></li>
-      <li><a href="http://127.0.0.1:8000/admin">后台管理</a></li>
-      <li class="active"><a href="http://127.0.0.1:8000/realApp/agentV">智能体</a></li>
+       <li ><a href={% url 'realApp:visualization'%}>实时监控</a></li>
+      <li><a href="#" onclick="window.location.href='/admin/'">后台管理</a></li>
+      <li class="active"><a href={% url 'realApp:agentV'%}>智能体</a></li>
         </ul>
   </div>
   <h1 class="tith1 fl">智能体状态分析</h1>
   <div class=" fr topbnt_right">
          <ul>
        <li><a href="{% url 'home' %}">返回</a></li>
-       <li ><a href="http://127.0.0.1:8000/realApp/report">分析报告</a></li>
+       <li ><a href={% url 'realApp:report'%}>分析报告</a></li>
        <li><a href="#">短信通知</a></li>
     </ul>
   </div>

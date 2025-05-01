@@ -20,7 +20,7 @@ from django.conf.urls import include
 from homeApp.views import home
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls,name='admin'),
     path('', home, name='home'),                      # 首页
     path('aboutApp/', include('aboutApp.urls')),    # 团队简介
     path('productsApp/', include('productsApp.urls')),  # 产品中心

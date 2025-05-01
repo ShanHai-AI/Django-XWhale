@@ -1,9 +1,9 @@
 // app.js
 
 const AppConfig = {
-    ALERT_WS_URL: 'ws://192.168.3.6:16532/alerts',
-    VIDEO_WS_URL: 'ws://192.168.3.6:16532/video_feed',
-    MEDIA_BASE_URL: 'http://127.0.0.1:8000/media'
+    ALERT_WS_URL: 'ws://192.168.3.8:16532/alerts',
+    VIDEO_WS_URL: 'ws://192.168.3.8:16532/video_feed',
+    MEDIA_BASE_URL: 'http://192.168.3.8:8888/'
 };
 
 const alertMessagesDiv = document.getElementById('alert-messages');

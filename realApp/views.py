@@ -1,7 +1,7 @@
 import pinyin
 from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
-from .models import Alerts, EmotionChange, BehaviorChange, Resume
+from .models import Alerts, EmotionChange, BehaviorChange, Resume,IP_Config
 from django.db.models import Q
 from django.utils import timezone
 from datetime import timedelta
@@ -13,6 +13,11 @@ from .forms import ResumeForm
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
+
+from pathlib import Path
+import os
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def registrer(request):
@@ -167,42 +172,43 @@ def get_img_b64(file_path):
 
 
 def api_start(request):
-    if request.method=='POST':
-        resume=Resume.objects.all()
-        user_list=[]
-        for i,user in enumerate(resume):
-            user_list.append({"id": i, "name": user.name, "phone": user.phoneID, "image_url": user.photo.url})
+    resume=Resume.objects.all()
+    ipconfig=IP_Config.objects.filter(name="Agent1")
+    print(request.body)
+    user_list=[]
+    for i,user in enumerate(resume):
+        user_list.append({"id": i, "name": user.name, "phone": user.phoneID, "image_url": user.photo.url})
 
-        try:
-            data = json.loads(request.body)
-            user_id = data.get('user_id')
+    try:
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
 
-            if user_id is None:
-                return JsonResponse({'error': '缺少 user_id'}, status=400)
+        if user_id is None:
+            return JsonResponse({'error': '缺少 user_id'}, status=400)
 
-            # 这里可以添加你的业务逻辑
-            print(f"收到启动请求，用户ID: {user_id}")
-            follow_img= "/Users/liqiang/Downloads/Project/Django-XWhale"+user_list[user_id]["image_url"]
-            print(follow_img)
-            img_b64 = get_img_b64(follow_img)
-            data = {
-                # "person_describe_str": res,  # 示例参数
-                "img_b64": img_b64
-            }
+        # 这里可以添加你的业务逻辑
+        print(f"收到启动请求，用户ID: {user_id}")
+        follow_img= "/Users/liqiang/Downloads/Project/Django-XWhale/"+user_list[user_id]["image_url"]
+        print(follow_img)
+        img_b64 = get_img_b64(follow_img)
+        data = {
+            # "person_describe_str": res,  # 示例参数
+            "img_b64": img_b64
+        }
 
-            response = requests.post(
-                url = "http://192.168.3.6:16532/start_tracking",
-                json=data,  # 自动序列化为JSON
-                headers={"Content-Type": "application/json"}
-            )
+        response = requests.post(
+            url = f"http://{ipconfig[0].ip}:16532/start_tracking",
+            json=data,  # 自动序列化为JSON
+            headers={"Content-Type": "application/json"}
+        )
 
-            if response.status_code:
-                return JsonResponse({
-                    'message': f'已启动跟踪用户 ID: {user_list[user_id]["name"]}',
-                    'status': 'success'
-                })
-        except json.JSONDecodeError:
-            return JsonResponse({'error': '无效的JSON格式'}, status=400)
-    else:
-        return JsonResponse({'error': '仅支持 POST 请求'}, status=405)
+        if response.status_code:
+            return JsonResponse({
+                'message': f'已启动跟踪用户 ID: {user_list[user_id]["name"]}',
+                'status': 'success'
+            })
+    except json.JSONDecodeError:
+        return JsonResponse({'error': '无效的JSON格式'}, status=400)
+    # else:
+    #     return JsonResponse({'error': '仅支持 POST 请求'}, status=405)
 

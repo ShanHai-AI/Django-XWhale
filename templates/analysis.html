@@ -12,9 +12,9 @@
 <div class="wpbox">
 <div class="bnt">
   <div class="topbnt_left fl">
-   <ul><li class="active"><a href="http://127.0.0.1:8000/realApp/visualization">实时监控</a></li>
-      <li><a href="http://127.0.0.1:8000/admin">后台管理</a></li>
-      <li><a href="http://127.0.0.1:8000/realApp/agentV">智能体</a></li>
+   <ul><li class="active"><a href={% url 'realApp:visualization'%}>实时监控</a></li>
+      <li><a href="#" onclick="window.location.href='/admin/'">后台管理</a></li>
+      <li><a href={% url 'realApp:agentV'%}>智能体</a></li>
    </ul>
   </div>
   <h1 class="tith1 fl">
@@ -26,7 +26,7 @@
   <div class=" fr topbnt_right">
     <ul>
        <li><a href="{% url 'home' %}">返回</a></li>
-       <li><a href="http://127.0.0.1:8000/realApp/report">分析报告</a></li>
+       <li><a href={% url 'realApp:report'%}>分析报告</a></li>
        <li><a href="#">短信通知</a></li>
 
     </ul>
@@ -604,7 +604,7 @@
 
     // 函数：从后端获取数据并更新图表
     function fetchEmotionData() {
-        fetch('http://127.0.0.1:8000/realApp/get_e_changes/')  // 替换为你的后端接口地址
+        fetch('/realApp/get_e_changes')  // 替换为你的后端接口地址
             .then(response => response.json())
             .then(data => {
                 // 提取嵌套数组中的数据
@@ -697,7 +697,7 @@
     myChartWeek.setOption(initialOptionWeek);
 
     function fetchAlertData() {
-        fetch('http://127.0.0.1:8000/realApp/a_week/')
+        fetch('/realApp/a_week/')
             .then(response => response.json())
             .then(data => {
                 // 将数据转换为数组并按日期升序排序
@@ -743,7 +743,7 @@ let rawData = [];
 
 // 函数：从后端获取数据并更新 rawData
 function fetchBehaviorData() {
-    fetch('http://127.0.0.1:8000/realApp/get_b_changes/')  // 替换为你的后端接口地址
+    fetch('/realApp/get_b_changes/')  // 替换为你的后端接口地址
         .then(response => response.json())
         .then(data => {
             // 提取嵌套数组中的数据
@@ -866,7 +866,7 @@ setInterval(fetchBehaviorData, 5000);
         // 定义 AJAX 刷新函数
         function refreshAgents() {
             $.ajax({
-                url: 'http://127.0.0.1:8000/agentApp/status/',  // 后端 API 接口
+                url: '/agentApp/status/',  // 后端 API 接口
                 method: 'GET',
                 success: function(data) {
                     // 清空容器
