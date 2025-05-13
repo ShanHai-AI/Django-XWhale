@@ -188,12 +188,13 @@ def api_start(request):
 
         # 这里可以添加你的业务逻辑
         print(f"收到启动请求，用户ID: {user_id}")
-        follow_img= "/Users/liqiang/Downloads/Project/Django-XWhale/"+user_list[user_id]["image_url"]
+        follow_img= "/Users/liqiang/Downloads/Project/Django-XWhale"+user_list[user_id]["image_url"]
         print(follow_img)
         img_b64 = get_img_b64(follow_img)
         data = {
             # "person_describe_str": res,  # 示例参数
-            "img_b64": img_b64
+            "img_b64": img_b64,
+            "phone_id":user_list[user_id]["phone"]
         }
 
         response = requests.post(
