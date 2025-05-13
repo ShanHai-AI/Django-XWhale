@@ -1,9 +1,9 @@
 // app.js
 
 const AppConfig = {
-    ALERT_WS_URL: 'ws://192.168.3.8:16532/alerts',
-    VIDEO_WS_URL: 'ws://192.168.3.8:16532/video_feed',
-    MEDIA_BASE_URL: 'http://192.168.3.8:8888/'
+    ALERT_WS_URL: 'ws://192.168.3.9:16532/alerts',
+    VIDEO_WS_URL: 'ws://192.168.3.9:16532/video_feed',
+    MEDIA_BASE_URL: 'http://192.168.3.99:8888/'
 };
 
 const alertMessagesDiv = document.getElementById('alert-messages');
@@ -107,6 +107,8 @@ function displayAlertMessage(message) {
 
     if (type === '行为异常') {
         alertMessagesDiv.prepend(messageElementAlerts);
+        speakText("出现异常情况");
+        console.log(content);
     } else if (type === '无异常') {
         emotionAlertMessagesDiv.prepend(messageElement);
     }
@@ -161,3 +163,28 @@ window.onclick = (event) => {
         modalVideoPreview.src = '';
     }
 };
+
+
+//语音播报
+let currentUtterance = null;
+
+function speakText(text) {
+  // 创建语音对象
+  currentUtterance = new SpeechSynthesisUtterance(text);
+
+  // 设置语言为中文
+  currentUtterance.lang = 'zh-CN';
+
+  // 设置语音参数，使声音更自然
+  currentUtterance.pitch = 1.0;     // 音高（1 中性）
+  currentUtterance.rate = 1;     // 语速略慢一点，更清晰（默认是1）
+  currentUtterance.volume = 1.0;    // 音量（最大）
+
+  // 播放语音
+  speechSynthesis.speak(currentUtterance);
+}
+
+function stopSpeech() {
+  speechSynthesis.cancel(); // 停止所有语音
+  currentUtterance = null;
+}
