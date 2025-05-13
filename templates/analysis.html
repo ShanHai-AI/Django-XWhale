@@ -733,7 +733,7 @@
     // 定义颜色映射
 const colorMapB = {
     '跌倒': '#FF5733',
-    '手捂胸口': '#FFA500',
+    '捂胸口': '#8B0000',
     '扶墙': '#FFD700',
     '其他': '#808080' // 默认颜色
 };
@@ -825,7 +825,7 @@ function updateChart() {
             name: '时间',
             axisLabel: {
                 formatter: (value) => {
-                    return echarts.format.formatTime('hh:mm', value);
+                    return echarts.format.formatTime('MM-dd', value);
                 },
                 color: 'rgba(255,255,255,.7)'
             },
