@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>自然语音播报</title>
+</head>
+<body>
+
+  <h2>输入要播报的文本：</h2>
+  <textarea id="textToSpeak" rows="4" cols="60">欢迎使用本系统，这是一条自然流畅的语音播报示例。</textarea>
+  <br /><br />
+  <button onclick="speakText()">开始播报</button>
+  <button onclick="stopSpeech()">停止播报</button>
+
+  <script>
+    let currentUtterance = null;
+
+    function speakText() {
+      const text = document.getElementById("textToSpeak").value;
+
+      // 创建语音对象
+      currentUtterance = new SpeechSynthesisUtterance(text);
+
+      // 设置语言为中文
+      currentUtterance.lang = 'zh-CN';
+
+      // 设置语音参数，使声音更自然
+      currentUtterance.pitch = 1.0;     // 音高（1 中性）
+      currentUtterance.rate = 1;     // 语速略慢一点，更清晰（默认是1）
+      currentUtterance.volume = 1.0;    // 音量（最大）
+
+      // 播放语音
+      speechSynthesis.speak(currentUtterance);
+    }
+
+    function stopSpeech() {
+      speechSynthesis.cancel(); // 停止所有语音
+      currentUtterance = null;
+    }
+  </script>
+
+</body>
+</html>
