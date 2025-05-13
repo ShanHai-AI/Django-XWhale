@@ -1,8 +1,8 @@
 // app.js
 
 const AppConfig = {
-    ALERT_WS_URL: 'ws://192.168.3.9:16532/alerts',
-    VIDEO_WS_URL: 'ws://192.168.3.9:16532/video_feed',
+    ALERT_WS_URL: 'ws://192.168.3.99:16532/alerts',
+    VIDEO_WS_URL: 'ws://192.168.3.99:16532/video_feed',
     MEDIA_BASE_URL: 'http://192.168.3.99:8888/'
 };
 
@@ -188,3 +188,36 @@ function stopSpeech() {
   speechSynthesis.cancel(); // 停止所有语音
   currentUtterance = null;
 }
+
+// 语音播报智能体状态
+
+let lastMessage = "";
+
+async function checkMessage() {
+    try {
+        const response = await fetch('/realApp/check_message/');  // 替换为你的实际接口路径
+        const data = await response.json();
+        const currentMessage = data.changed_message || "";
+
+        if (currentMessage !== lastMessage) {
+            console.log("message 发生了变化：", currentMessage);
+            speakText(currentMessage);
+            lastMessage = currentMessage;
+            return currentMessage;
+        } else {
+            console.log("没有变化");
+            return "";
+        }
+    } catch (error) {
+        console.error("请求失败:", error);
+        return "";
+    }
+}
+
+setInterval(async () => {
+    const changed = await checkMessage();
+    if (changed) {
+        // 在这里处理 message 变化的逻辑
+        document.getElementById("message").innerText = changed;
+    }
+}, 1000);  // 每 5 秒检查一次
