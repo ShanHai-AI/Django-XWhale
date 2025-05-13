@@ -199,3 +199,12 @@ sudo tail -f /var/log/nginx/error.log
 
 🎉 **大功告成！现在可以通过 HTTPS 访问你的 Django 项目了！** 🎉  
 如有疑问欢迎提交 Issue 💬 或参考官方文档 📚
+
+
+## ✅ 🀄️ 启动修改如下位置
+| 位置 | 代码 | 备注 |
+|------|------|------|
+|realApp|views.py|follow_img路径|
+|realApp|templates/agent_control.html|end_tracking ip地址|
+|static|app.js|IP地址|
+|数据库|Agent|IP地址|
