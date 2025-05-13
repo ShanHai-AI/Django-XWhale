@@ -204,7 +204,7 @@ sudo tail -f /var/log/nginx/error.log
 ## ✅ 🀄️ 启动修改如下位置
 | 位置 | 代码 | 备注 |
 |------|------|------|
-|realApp|views.py|follow_img路径|
+|realApp|views.py|follow_img路径/数据库配置|
 |realApp|templates/agent_control.html|end_tracking ip地址|
 |static|app.js|IP地址|
 |数据库|Agent|IP地址|
