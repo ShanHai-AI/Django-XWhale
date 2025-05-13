@@ -13,7 +13,8 @@ from .forms import ResumeForm
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
-
+import pymysql
+import time
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -213,3 +214,41 @@ def api_start(request):
     # else:
     #     return JsonResponse({'error': '仅支持 POST 请求'}, status=405)
 
+
+
+# 注意，在数据库中创建agent_message 数据库，包含 id 和 message_content 字段
+# 全局变量保存上一次的 message 值
+last_message = ""
+def get_current_message():
+    global last_message
+    # 根据你的数据库配置修改
+    conn = pymysql.connect(
+        host='192.168.3.14',
+        user='root',
+        password='liqiang0307',
+        database='xwhale',
+        charset='utf8',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+    try:
+        with conn.cursor() as cursor:
+            # 替换 your_table 为你的表名
+            sql = "SELECT message_content FROM agent_message ORDER BY id DESC LIMIT 1"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+    finally:
+        conn.close()
+
+    current_message = result['message_content'] if result else ""
+
+    if current_message != last_message:
+        last_message = current_message
+        return current_message
+    else:
+        return ""
+
+
+def check_message(request):
+    changed_message = get_current_message()
+    return JsonResponse({"changed_message": changed_message})

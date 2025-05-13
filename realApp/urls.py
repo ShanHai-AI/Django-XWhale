@@ -16,6 +16,7 @@ urlpatterns = [
     path('agent_control/',views.agent_control, name='agent_control'),
     path('api_get_user/',views.api_get_user, name='api_get_user'),
     path('api_start/',views.api_start, name='api_start'),
+    path('check_message/',views.check_message, name='check_message'),
 
 
 ]
