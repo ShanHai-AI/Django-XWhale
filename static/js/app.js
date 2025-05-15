@@ -107,7 +107,7 @@ function displayAlertMessage(message) {
 
     if (type === '行为异常') {
         alertMessagesDiv.prepend(messageElementAlerts);
-        speakText("出现异常情况");
+        //speakText("出现异常情况");
         console.log(content);
     } else if (type === '无异常') {
         emotionAlertMessagesDiv.prepend(messageElement);
