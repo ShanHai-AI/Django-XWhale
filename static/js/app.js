@@ -216,8 +216,8 @@ async function checkMessage() {
 
 setInterval(async () => {
     const changed = await checkMessage();
-    if (changed) {
+    //if (changed) {
         // 在这里处理 message 变化的逻辑
-        document.getElementById("message").innerText = changed;
-    }
+      //  document.getElementById("message").innerText = changed;
+    //}
 }, 1000);  // 每 5 秒检查一次
